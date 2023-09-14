@@ -69,7 +69,25 @@
             </if>
         </where>
         <if test="sortField!=null and order!=null">
-            order by ${sortField} ${order}
+            <choose>
+                <when test="sortField == 'order_no'">
+                    ORDER BY order_no
+                </when>
+                <when test="sortField == 'user_id'">
+                    ORDER BY user_id
+                </when>
+                <otherwise>
+                    ORDER BY create_time 
+                </otherwise>
+            </choose>
+            <choose>
+                <when test="order == 'ASC'">
+                    ASC
+                </when>
+                <otherwise>
+                    DESC
+                </otherwise>
+            </choose>
         </if>
         <if test="start!=null and limit!=null">
             limit #{start},#{limit}
